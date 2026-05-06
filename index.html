@@ -3,470 +3,274 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Checkout Seguro</title>
+  <title>Checkout — A Grande Revelação</title>
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
+
   <!-- HEADER -->
-  <header class="checkout-header">
-    <div class="header-inner">
-      <div class="logo">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#6C3CE1"/><path d="M8 12h16M8 16h12M8 20h8" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>
-        <span>Minha Loja</span>
-      </div>
-      <div class="security-badge">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 3.5V8c0 3.3 2.5 6.4 6 7 3.5-.6 6-3.7 6-7V3.5L8 1z" fill="#22c55e"/><path d="M5.5 8l2 2 3-3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Compra 100% Segura</span>
+  <header class="cp-header">
+    <div class="cp-header-inner">
+      <div class="cp-logo">A Grande Revelação</div>
+      <div class="cp-secure">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3.5V7c0 3 2.2 5.7 5 6.2C10.8 12.7 13 10 13 7V3.5L7 1z" fill="#22c55e"/><path d="M4.5 7l2 2 3-3" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Pagamento Seguro
       </div>
     </div>
   </header>
 
-  <!-- PROGRESS BAR -->
-  <div class="progress-bar-container">
-    <div class="progress-steps">
-      <div class="step active" data-step="1">
-        <div class="step-dot"><span>1</span></div>
-        <div class="step-label">Dados</div>
+  <main class="cp-main">
+
+    <!-- LEFT: FORM -->
+    <div class="cp-left">
+
+      <!-- CONTACT -->
+      <div class="cp-section">
+        <h2 class="cp-section-title">Contato</h2>
+
+        <div class="cp-field">
+          <input type="email" id="email" class="cp-input" placeholder="E-mail *" autocomplete="email" />
+          <div class="cp-error" id="email-error"></div>
+        </div>
+        <div class="cp-field">
+          <input type="text" id="name" class="cp-input" placeholder="Nome completo *" autocomplete="name" />
+          <div class="cp-error" id="name-error"></div>
+        </div>
+        <div class="cp-row">
+          <div class="cp-field">
+            <input type="tel" id="phone" class="cp-input" placeholder="Celular *" autocomplete="tel" maxlength="15" />
+            <div class="cp-error" id="phone-error"></div>
+          </div>
+          <div class="cp-field">
+            <input type="text" id="cpf" class="cp-input" placeholder="CPF *" maxlength="14" />
+            <div class="cp-error" id="cpf-error"></div>
+          </div>
+        </div>
       </div>
-      <div class="step-line"></div>
-      <div class="step" data-step="2">
-        <div class="step-dot"><span>2</span></div>
-        <div class="step-label">Entrega</div>
-      </div>
-      <div class="step-line"></div>
-      <div class="step" data-step="3">
-        <div class="step-dot"><span>3</span></div>
-        <div class="step-label">Pagamento</div>
-      </div>
-    </div>
-  </div>
 
-  <!-- URGENCY BANNER -->
-  <div class="urgency-banner">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#f59e0b" stroke-width="1.5"/><path d="M8 5v3.5l2 1.5" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/></svg>
-    <span>Oferta expira em: <strong id="countdown">09:47</strong> — últimas <strong>3 unidades</strong> no estoque!</span>
-  </div>
+      <!-- PAYMENT -->
+      <div class="cp-section">
+        <h2 class="cp-section-title">Pagamento</h2>
+        <p class="cp-section-sub">Todos os pagamentos são seguros e criptografados.</p>
 
-  <main class="checkout-main">
-    <!-- LEFT COLUMN -->
-    <div class="checkout-left">
-
-      <!-- STEP 1: CUSTOMER INFO -->
-      <section class="form-section" id="step-1">
-        <h2 class="section-title">
-          <span class="section-number">1</span>
-          Seus dados
-        </h2>
-
-        <div class="form-group">
-          <label>Nome completo *</label>
-          <input type="text" id="name" placeholder="João Silva" autocomplete="name" />
-          <div class="field-error" id="name-error"></div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>E-mail *</label>
-            <input type="email" id="email" placeholder="joao@email.com" autocomplete="email" />
-            <div class="field-error" id="email-error"></div>
-          </div>
-          <div class="form-group">
-            <label>WhatsApp *</label>
-            <input type="tel" id="phone" placeholder="(11) 99999-9999" autocomplete="tel" maxlength="15" />
-            <div class="field-error" id="phone-error"></div>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>CPF *</label>
-          <input type="text" id="cpf" placeholder="000.000.000-00" maxlength="14" />
-          <div class="field-error" id="cpf-error"></div>
-        </div>
-
-        <button class="btn-primary btn-next" onclick="goToStep(2)">
-          Continuar para Entrega
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-      </section>
-
-      <!-- STEP 2: SHIPPING -->
-      <section class="form-section collapsed" id="step-2">
-        <h2 class="section-title">
-          <span class="section-number">2</span>
-          Endereço de entrega
-        </h2>
-
-        <div class="form-group">
-          <label>CEP *</label>
-          <div class="input-with-action">
-            <input type="text" id="cep" placeholder="00000-000" maxlength="9" />
-            <button class="btn-cep" onclick="fetchCEP()">Buscar</button>
-          </div>
-          <div class="field-error" id="cep-error"></div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group flex-3">
-            <label>Rua *</label>
-            <input type="text" id="street" placeholder="Rua das Flores" />
-          </div>
-          <div class="form-group flex-1">
-            <label>Número *</label>
-            <input type="text" id="number" placeholder="123" />
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Complemento</label>
-          <input type="text" id="complement" placeholder="Apto 42, Bloco B..." />
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Bairro *</label>
-            <input type="text" id="neighborhood" placeholder="Centro" />
-          </div>
-          <div class="form-group">
-            <label>Cidade *</label>
-            <input type="text" id="city" placeholder="São Paulo" />
-          </div>
-          <div class="form-group flex-half">
-            <label>UF *</label>
-            <input type="text" id="state" placeholder="SP" maxlength="2" />
-          </div>
-        </div>
-
-        <!-- SHIPPING OPTIONS -->
-        <div class="shipping-options" id="shipping-options">
-          <h3 class="sub-title">Frete</h3>
-          <div class="shipping-option selected" onclick="selectShipping(this, 'pac', 1990)">
-            <div class="shipping-radio"><div class="radio-inner"></div></div>
-            <div class="shipping-info">
-              <div class="shipping-name">PAC — Correios</div>
-              <div class="shipping-days">5 a 10 dias úteis</div>
+        <!-- METHODS -->
+        <div class="cp-methods">
+          <div class="cp-method active" id="method-card" onclick="selectMethod('card')">
+            <div class="cp-method-radio"><div class="cp-radio-dot"></div></div>
+            <span class="cp-method-label">Cartão de Crédito</span>
+            <div class="cp-method-brands">
+              <span class="brand visa">VISA</span>
+              <span class="brand master">MC</span>
+              <span class="brand elo">ELO</span>
+              <span class="brand-more">E mais...</span>
             </div>
-            <div class="shipping-price">R$ 19,90</div>
           </div>
-          <div class="shipping-option" onclick="selectShipping(this, 'sedex', 3490)">
-            <div class="shipping-radio"><div class="radio-inner"></div></div>
-            <div class="shipping-info">
-              <div class="shipping-name">SEDEX — Correios</div>
-              <div class="shipping-days">2 a 4 dias úteis</div>
+
+          <div class="cp-method" id="method-pix" onclick="selectMethod('pix')">
+            <div class="cp-method-radio"><div class="cp-radio-dot"></div></div>
+            <span class="cp-method-label">PIX</span>
+            <div class="pix-logo-inline">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L5 7l4 4-4 4 5-5 5 5-4-4 4-4L10 2z" fill="#32BCAD"/></svg>
             </div>
-            <div class="shipping-price">R$ 34,90</div>
           </div>
-          <div class="shipping-option free" onclick="selectShipping(this, 'free', 0)">
-            <div class="shipping-radio"><div class="radio-inner"></div></div>
-            <div class="shipping-info">
-              <div class="shipping-name">Frete Grátis <span class="badge-free">GRÁTIS</span></div>
-              <div class="shipping-days">8 a 15 dias úteis</div>
+
+          <div class="cp-method" id="method-boleto" onclick="selectMethod('boleto')">
+            <div class="cp-method-radio"><div class="cp-radio-dot"></div></div>
+            <span class="cp-method-label">Boleto Bancário</span>
+          </div>
+        </div>
+
+        <!-- CARD FIELDS -->
+        <div class="cp-payment-form" id="form-card">
+          <div class="cp-field">
+            <div class="cp-input-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="3" width="14" height="10" rx="2" stroke="#9ca3af" stroke-width="1.2"/><path d="M1 7h14" stroke="#9ca3af" stroke-width="1.2"/><rect x="3" y="10" width="3" height="1.5" rx=".5" fill="#9ca3af"/></svg>
+              <input type="text" id="card-number" class="cp-input" placeholder="Número do cartão" maxlength="19" />
+              <div class="card-brand-inline" id="card-brand-inline"></div>
             </div>
-            <div class="shipping-price free-text">Grátis</div>
           </div>
-        </div>
-
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="goToStep(1)">← Voltar</button>
-          <button class="btn-primary btn-next" onclick="goToStep(3)">
-            Continuar para Pagamento
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-      </section>
-
-      <!-- STEP 3: PAYMENT -->
-      <section class="form-section collapsed" id="step-3">
-        <h2 class="section-title">
-          <span class="section-number">3</span>
-          Pagamento
-        </h2>
-
-        <!-- PAYMENT TABS -->
-        <div class="payment-tabs">
-          <button class="payment-tab active" onclick="selectPaymentMethod('card', this)">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="1" y="4" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M1 8h18" stroke="currentColor" stroke-width="1.5"/><rect x="4" y="12" width="4" height="2" rx="1" fill="currentColor"/></svg>
-            Cartão
-          </button>
-          <button class="payment-tab" onclick="selectPaymentMethod('pix', this)">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L4 8l4 4-4 4 6-6 6 6-4-4 4-4-6-6z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
-            PIX
-          </button>
-          <button class="payment-tab" onclick="selectPaymentMethod('boleto', this)">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M5 9v4M7 8v5M9 9v4M11 8v5M13 9v4M15 8v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Boleto
-          </button>
-        </div>
-
-        <!-- CARD FORM -->
-        <div class="payment-panel" id="panel-card">
-          <div class="card-preview" id="card-preview">
-            <div class="card-front">
-              <div class="card-brand" id="card-brand-icon"></div>
-              <div class="card-number-display" id="card-number-display">•••• •••• •••• ••••</div>
-              <div class="card-bottom-row">
-                <div>
-                  <div class="card-label">TITULAR</div>
-                  <div class="card-holder-display" id="card-holder-display">SEU NOME</div>
-                </div>
-                <div>
-                  <div class="card-label">VALIDADE</div>
-                  <div class="card-expiry-display" id="card-expiry-display">MM/AA</div>
-                </div>
+          <div class="cp-field">
+            <div class="cp-input-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#9ca3af" stroke-width="1.2"/><path d="M8 5v4M8 10v.5" stroke="#9ca3af" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <input type="text" id="card-name" class="cp-input" placeholder="Nome impresso no cartão" style="text-transform:uppercase" />
+            </div>
+          </div>
+          <div class="cp-row">
+            <div class="cp-field">
+              <div class="cp-input-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="#9ca3af" stroke-width="1.2"/><path d="M5 4V3a3 3 0 016 0v1" stroke="#9ca3af" stroke-width="1.2"/></svg>
+                <input type="text" id="card-expiry" class="cp-input" placeholder="MM/AA" maxlength="5" />
+              </div>
+            </div>
+            <div class="cp-field">
+              <div class="cp-input-icon">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="4" width="12" height="9" rx="1.5" stroke="#9ca3af" stroke-width="1.2"/><path d="M5 4V3a3 3 0 016 0v1" stroke="#9ca3af" stroke-width="1.2"/></svg>
+                <input type="text" id="card-cvv" class="cp-input" placeholder="CVV" maxlength="4" />
               </div>
             </div>
           </div>
-
-          <div class="form-group">
-            <label>Número do cartão *</label>
-            <div class="card-number-wrapper">
-              <input type="text" id="card-number" placeholder="0000 0000 0000 0000" maxlength="19" />
-              <div class="card-brand-preview" id="card-brand-badge"></div>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Nome no cartão *</label>
-            <input type="text" id="card-name" placeholder="JOÃO SILVA" style="text-transform:uppercase" />
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Validade *</label>
-              <input type="text" id="card-expiry" placeholder="MM/AA" maxlength="5" />
-            </div>
-            <div class="form-group">
-              <label>CVV *
-                <span class="cvv-tooltip" title="3 dígitos no verso do cartão">?</span>
-              </label>
-              <input type="text" id="card-cvv" placeholder="123" maxlength="4" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Parcelas *</label>
-            <select id="installments">
+          <div class="cp-field">
+            <select id="installments" class="cp-input cp-select">
               <option value="1">1x de R$ 297,00 (sem juros)</option>
               <option value="2">2x de R$ 148,50 (sem juros)</option>
               <option value="3">3x de R$ 99,00 (sem juros)</option>
-              <option value="6">6x de R$ 54,50 (c/ juros 1,99%)</option>
-              <option value="12">12x de R$ 29,90 (c/ juros 1,99%)</option>
+              <option value="6" selected>6x de R$ 56,48*</option>
+              <option value="12">12x de R$ 30,90*</option>
             </select>
           </div>
+        </div>
 
-          <div class="card-security-note">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.9 2.2 5.6 5 6.1 2.8-.5 5-3.2 5-6.1V3L7 1z" fill="#22c55e"/></svg>
-            Seus dados são criptografados com SSL 256-bit
+        <!-- PIX FIELDS -->
+        <div class="cp-payment-form hidden" id="form-pix">
+          <div class="pix-info-block">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#32BCAD"/><path d="M20 8L11 17l8 8-8 8 9-9 9 9-8-8 8-8L20 8z" fill="white"/></svg>
+            <div>
+              <div class="pix-info-title">Pague com PIX</div>
+              <div class="pix-info-sub">Aprovação imediata • Qualquer banco</div>
+            </div>
+            <div class="pix-discount-tag">5% OFF</div>
           </div>
         </div>
 
-        <!-- PIX PANEL -->
-        <div class="payment-panel hidden" id="panel-pix">
-          <div class="pix-container">
-            <div class="pix-badge">
-              <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><rect width="60" height="60" rx="12" fill="#32BCAD"/><path d="M30 15L18 27l8 8-8 8 12-12 12 12-8-8 8-8L30 15z" fill="white"/></svg>
-            </div>
-            <h3>Pague com PIX</h3>
-            <p>Aprovação instantânea • Pague com qualquer banco</p>
-            <div class="pix-qr-placeholder" id="pix-qr">
-              <div class="qr-box">
-                <div class="qr-animation"></div>
-                <span>QR Code aparecerá após confirmação</span>
-              </div>
-            </div>
-            <div class="pix-discount-badge">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.8 3.6L13 5.3l-3 2.9.7 4.1L7 10.4l-3.7 1.9.7-4.1L1 5.3l4.2-.7L7 1z" fill="#f59e0b"/></svg>
-              5% de desconto pagando com PIX!
-            </div>
-            <div class="pix-info-box">
-              <div class="pix-step"><span>1</span> Abra o app do seu banco</div>
-              <div class="pix-step"><span>2</span> Escaneie o QR Code ou cole o código</div>
-              <div class="pix-step"><span>3</span> Confirmação instantânea!</div>
+        <!-- BOLETO FIELDS -->
+        <div class="cp-payment-form hidden" id="form-boleto">
+          <div class="boleto-info-block">
+            <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#1e40af"/><rect x="10" y="14" width="3" height="12" fill="white"/><rect x="17" y="14" width="2" height="12" fill="white"/><rect x="22" y="14" width="3" height="12" fill="white"/><rect x="28" y="14" width="2" height="12" fill="white"/></svg>
+            <div>
+              <div class="pix-info-title">Boleto Bancário</div>
+              <div class="pix-info-sub">Vence em 3 dias úteis • Compensação em até 3 dias</div>
             </div>
           </div>
         </div>
 
-        <!-- BOLETO PANEL -->
-        <div class="payment-panel hidden" id="panel-boleto">
-          <div class="boleto-container">
-            <div class="boleto-icon">
-              <svg width="60" height="60" viewBox="0 0 60 60" fill="none"><rect width="60" height="60" rx="12" fill="#1e40af"/><rect x="12" y="20" width="4" height="20" fill="white"/><rect x="20" y="20" width="2" height="20" fill="white"/><rect x="26" y="20" width="4" height="20" fill="white"/><rect x="34" y="20" width="2" height="20" fill="white"/><rect x="40" y="20" width="4" height="20" fill="white"/><rect x="48" y="20" width="2" height="20" fill="white"/></svg>
-            </div>
-            <h3>Boleto Bancário</h3>
-            <p>O boleto será gerado após a confirmação do pedido</p>
-            <div class="boleto-info">
-              <div class="boleto-detail"><strong>Vencimento:</strong> 3 dias úteis</div>
-              <div class="boleto-detail"><strong>Processamento:</strong> Até 3 dias após pagamento</div>
-              <div class="boleto-warning">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="7" stroke="#f59e0b" stroke-width="1.5"/><path d="M8 5v4M8 11v.5" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/></svg>
-                Boleto não é compensado nos finais de semana e feriados
-              </div>
-            </div>
-          </div>
-        </div>
+        <!-- SAVE INFO -->
+        <label class="cp-save-info">
+          <input type="checkbox" checked id="save-info" />
+          <span>Salvar minhas informações com segurança para compras futuras.</span>
+        </label>
 
-        <div class="btn-group">
-          <button class="btn-secondary" onclick="goToStep(2)">← Voltar</button>
-          <button class="btn-cta" onclick="submitOrder()">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5L2 4.5V9c0 3.7 2.8 7.2 7 7.8 4.2-.6 7-4.1 7-7.8V4.5L9 1.5z" fill="rgba(255,255,255,0.2)"/><path d="M6 9.5l2.5 2.5L13 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            Finalizar Compra com Segurança
-          </button>
-        </div>
+        <!-- CTA -->
+        <button class="cp-btn-cta" id="btn-finalizar" onclick="submitOrder()">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 3.5V7c0 3 2.2 5.7 5 6 2.8-.3 5-3 5-6V3.5L8 1z" fill="rgba(255,255,255,.25)"/><path d="M5 8l2 2 4-4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Finalizar compra
+        </button>
 
-        <div class="payment-brands">
-          <img src="https://raw.githubusercontent.com/aaronfagan/svg-credit-card-payment-icons/main/flat/visa.svg" alt="Visa" height="24" onerror="this.style.display='none'" />
-          <img src="https://raw.githubusercontent.com/aaronfagan/svg-credit-card-payment-icons/main/flat/mastercard.svg" alt="Mastercard" height="24" onerror="this.style.display='none'" />
-          <span class="brand-text">Visa</span>
-          <span class="brand-text">Master</span>
-          <span class="brand-text">Amex</span>
-          <span class="brand-text">Elo</span>
-          <span class="brand-text">Hipercard</span>
-        </div>
-      </section>
+        <p class="cp-terms">
+          Ao prosseguir, você concorda com os <a href="#">Termos de Serviço</a>
+        </p>
+      </div>
 
-      <!-- TRUST SECTION -->
-      <div class="trust-section">
-        <div class="trust-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L4 5.5V11c0 5 3.3 9.7 8 11 4.7-1.3 8-6 8-11V5.5L12 2z" fill="#22c55e" opacity=".2"/><path d="M12 2L4 5.5V11c0 5 3.3 9.7 8 11 4.7-1.3 8-6 8-11V5.5L12 2z" stroke="#22c55e" stroke-width="1.5"/><path d="M8.5 12l2.5 2.5 4.5-5" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <div><strong>Compra Segura</strong><span>Ambiente 100% criptografado</span></div>
+      <!-- FOOTER -->
+      <div class="cp-footer-badges">
+        <div class="cp-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1L2 3.5V7c0 3 2.2 5.7 5 6 2.8-.3 5-3 5-6V3.5L8 1z" fill="#6b7280"/></svg>
+          <span>Seguro<br><strong>Certificado SSL</strong></span>
         </div>
-        <div class="trust-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="#6C3CE1" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="#6C3CE1" stroke-width="1.5" stroke-linecap="round"/></svg>
-          <div><strong>SSL 256-bit</strong><span>Dados protegidos</span></div>
-        </div>
-        <div class="trust-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 14l2 2 4-4" stroke="#22c55e" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><rect x="3" y="3" width="18" height="18" rx="3" stroke="#22c55e" stroke-width="1.5"/></svg>
-          <div><strong>Garantia 30 dias</strong><span>Devolução garantida</span></div>
-        </div>
-        <div class="trust-item">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" stroke="#6C3CE1" stroke-width="1.5"/></svg>
-          <div><strong>Suporte 24h</strong><span>Atendimento rápido</span></div>
+        <div class="cp-badge-brand">checkout</div>
+        <div class="cp-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="1" y="4" width="14" height="9" rx="2" stroke="#6b7280" stroke-width="1.2"/><path d="M1 8h14" stroke="#6b7280" stroke-width="1.2"/></svg>
+          <span>Pagamentos<br><strong>Seguros</strong></span>
         </div>
       </div>
     </div>
 
-    <!-- RIGHT COLUMN: ORDER SUMMARY -->
-    <aside class="checkout-right">
-      <div class="order-summary">
-        <h3 class="summary-title">Resumo do Pedido</h3>
+    <!-- RIGHT: ORDER SUMMARY -->
+    <aside class="cp-right">
+      <div class="cp-order-box">
 
         <!-- PRODUCT -->
-        <div class="summary-product">
-          <div class="product-image">
-            <div class="product-img-placeholder">
-              <svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect width="40" height="40" rx="8" fill="#e5e7eb"/><path d="M12 28l6-8 5 6 3-4 6 6H12z" fill="#9ca3af"/><circle cx="26" cy="14" r="3" fill="#9ca3af"/></svg>
-            </div>
-            <span class="product-qty">1</span>
+        <div class="cp-product-row">
+          <div class="cp-product-img">
+            <img src="https://via.placeholder.com/80x80/1a1a2e/f59e0b?text=21D" alt="Produto" id="product-img" onerror="this.style.display='none'" />
+            <span class="cp-qty" id="qty-badge">1</span>
           </div>
-          <div class="product-details">
-            <div class="product-name">Curso Completo de Marketing Digital</div>
-            <div class="product-variant">Acesso Vitalício + Certificado</div>
+          <div class="cp-product-info">
+            <div class="cp-product-name">A Grande REVELAÇÃO</div>
+            <div class="cp-product-sub">Acesso digital imediato</div>
           </div>
-          <div class="product-price">R$ 297,00</div>
+          <div class="cp-product-price">R$ 297,00</div>
         </div>
 
         <!-- COUPON -->
-        <div class="coupon-section">
-          <div class="coupon-toggle" onclick="toggleCoupon()">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v5M1 7h5M13 7H8M7 13V8" stroke="#6C3CE1" stroke-width="1.5" stroke-linecap="round"/></svg>
-            Tenho um cupom de desconto
-          </div>
-          <div class="coupon-form" id="coupon-form" style="display:none">
-            <div class="input-with-action">
-              <input type="text" id="coupon-input" placeholder="Digite seu cupom" />
-              <button class="btn-coupon" onclick="applyCoupon()">Aplicar</button>
+        <div class="cp-coupon-row">
+          <button class="cp-coupon-toggle" onclick="toggleCoupon()">
+            Tem cupom de desconto ou vale presente?
+          </button>
+          <div class="cp-coupon-form" id="coupon-form" style="display:none">
+            <div class="cp-coupon-input-row">
+              <input type="text" id="coupon-input" class="cp-input" placeholder="Código do cupom" />
+              <button class="cp-coupon-btn" onclick="applyCoupon()">Aplicar</button>
             </div>
-            <div class="coupon-feedback" id="coupon-feedback"></div>
+            <div class="cp-coupon-msg" id="coupon-msg"></div>
           </div>
         </div>
 
         <!-- TOTALS -->
-        <div class="summary-totals">
-          <div class="total-row">
+        <div class="cp-totals">
+          <div class="cp-total-row">
             <span>Subtotal</span>
-            <span id="subtotal">R$ 297,00</span>
+            <span id="subtotal-val">R$ 297,00</span>
           </div>
-          <div class="total-row" id="discount-row" style="display:none">
-            <span class="discount-label">Desconto</span>
-            <span class="discount-value" id="discount-value">-R$ 0,00</span>
+          <div class="cp-total-row" id="discount-row" style="display:none">
+            <span style="color:#22c55e">Desconto</span>
+            <span style="color:#22c55e" id="discount-val">-R$ 0,00</span>
           </div>
-          <div class="total-row">
-            <span>Frete</span>
-            <span id="shipping-cost">R$ 19,90</span>
-          </div>
-          <div class="total-row total-final">
+          <div class="cp-total-final">
             <span>Total</span>
-            <span id="total-price">R$ 316,90</span>
-          </div>
-          <div class="pix-total-note" id="pix-note" style="display:none">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L2 5l3 3-3 3 4-4 4 4-3-3 3-3L6 1z" fill="#32BCAD"/></svg>
-            Com PIX: <strong id="pix-price">R$ 301,06</strong>
-          </div>
-        </div>
-
-        <!-- ORDER BUMP -->
-        <div class="order-bump" id="order-bump">
-          <div class="bump-header">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.5 3 3.3.5-2.4 2.3.6 3.2L8 8.5l-3 1.5.6-3.2L3.2 4.5 6.5 4 8 1z" fill="#f59e0b"/></svg>
-            <strong>OFERTA ESPECIAL — só aparece aqui!</strong>
-          </div>
-          <div class="bump-content">
-            <div class="bump-checkbox-area" onclick="toggleBump()">
-              <div class="bump-checkbox" id="bump-checkbox">
-                <svg class="check-icon" width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </div>
-              <div class="bump-text">
-                <div class="bump-title">Adicionar: Mentoria em Grupo (4 semanas)</div>
-                <div class="bump-description">Sessões ao vivo toda semana com especialistas. Normalmente R$ 97,00</div>
-                <div class="bump-price-row">
-                  <span class="bump-original">R$ 97,00</span>
-                  <span class="bump-discounted">por apenas R$ 47,00</span>
-                </div>
-              </div>
+            <div class="cp-total-right">
+              <div class="cp-installments-text" id="installments-display">6x de R$ 56,48*</div>
+              <div class="cp-or-cash" id="cash-display">OU R$ 297,00 À VISTA</div>
             </div>
           </div>
+          <div class="cp-pix-note" id="pix-note" style="display:none">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L3 4l3 3-3 3 3-3 3 3-3-3 3-3L6 1z" fill="#32BCAD"/></svg>
+            PIX com 5% desconto: <strong id="pix-price-display">R$ 282,15</strong>
+          </div>
         </div>
 
-        <!-- TESTIMONIALS -->
-        <div class="testimonials">
-          <div class="stars">★★★★★</div>
-          <div class="testimonial-text">"Comprei com medo mas chegou rapidinho e é exatamente como descrito. Super recomendo!"</div>
-          <div class="testimonial-author">— Maria S., São Paulo</div>
-        </div>
       </div>
     </aside>
   </main>
 
   <!-- SUCCESS MODAL -->
-  <div class="modal-overlay" id="success-modal" style="display:none">
-    <div class="modal-box">
-      <div class="success-animation">
-        <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
-          <circle cx="40" cy="40" r="38" stroke="#22c55e" stroke-width="3" class="circle-anim"/>
-          <path d="M24 40l12 12 20-20" stroke="#22c55e" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" class="check-anim"/>
+  <div class="cp-modal-overlay" id="modal" style="display:none">
+    <div class="cp-modal">
+      <div class="cp-modal-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="30" stroke="#22c55e" stroke-width="2.5" class="circle-draw"/>
+          <path d="M20 32l9 9 15-15" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="check-draw"/>
         </svg>
       </div>
-      <h2>Pedido Confirmado!</h2>
-      <p>Enviamos um e-mail de confirmação para <strong id="confirm-email"></strong></p>
-      <div class="order-number">Pedido #<span id="order-number"></span></div>
-      <div id="pix-qr-final" style="display:none" class="pix-final-section">
-        <div class="pix-qr-code">
-          <div class="qr-placeholder">
-            <div class="fake-qr"></div>
-          </div>
+      <h2 class="cp-modal-title">Pedido Confirmado!</h2>
+      <p class="cp-modal-sub">Enviamos a confirmação para<br><strong id="modal-email"></strong></p>
+      <div class="cp-order-number">Pedido #<span id="modal-order-id"></span></div>
+
+      <!-- PIX QR -->
+      <div id="pix-result" style="display:none" class="cp-pix-result">
+        <p class="cp-pix-label">Escaneie o QR Code para concluir o pagamento</p>
+        <div class="cp-qr-wrap">
+          <img id="pix-qr-img" src="" alt="QR Code PIX" />
         </div>
-        <p>Escaneie o QR Code para pagar via PIX</p>
-        <button class="btn-copy-pix" onclick="copyPixCode()">Copiar código PIX</button>
+        <button class="cp-copy-pix" onclick="copyPix()">Copiar código PIX</button>
+        <div class="cp-pix-expire" id="pix-expire"></div>
       </div>
-      <button class="btn-primary" onclick="closeModal()">Voltar à Loja</button>
+
+      <!-- BOLETO -->
+      <div id="boleto-result" style="display:none" class="cp-boleto-result">
+        <p>Seu boleto foi gerado com sucesso.</p>
+        <a id="boleto-link" href="#" target="_blank" class="cp-boleto-btn">Visualizar Boleto</a>
+      </div>
+
+      <button class="cp-modal-close" onclick="closeModal()">Voltar à loja</button>
     </div>
   </div>
 
-  <!-- LOADING OVERLAY -->
-  <div class="loading-overlay" id="loading-overlay" style="display:none">
-    <div class="spinner"></div>
-    <div class="loading-text">Processando seu pagamento...</div>
+  <!-- LOADING -->
+  <div class="cp-loading" id="loading" style="display:none">
+    <div class="cp-spinner"></div>
+    <div class="cp-loading-text">Processando pagamento...</div>
   </div>
 
   <script src="checkout.js"></script>
