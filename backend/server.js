@@ -6,6 +6,7 @@ const axios = require('axios');
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
 const crypto = require('crypto');
+const QRCode = require('qrcode');
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -36,8 +37,10 @@ furiapay.interceptors.response.use(
 );
 
 // ===== MIDDLEWARES =====
+app.set('trust proxy', 1);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3456',
+  origin: '*',
   methods: ['GET', 'POST'],
 }));
 
@@ -54,9 +57,20 @@ const paymentLimiter = rateLimit({
 });
 
 // ===== HEALTHCHECK =====
+app.get('/', (_, res) => res.sendFile(path.join(frontendDir, 'index.html')));
+
 app.get('/health', (_, res) => {
   res.json({ status: 'ok', env: process.env.NODE_ENV });
 });
+
+const path = require('path');
+const frontendDir = path.join(__dirname, '..');
+
+app.get('/setup.sh',    (_, res) => res.sendFile(path.join(frontendDir, 'setup.sh')));
+app.get('/index.html',  (_, res) => res.sendFile(path.join(frontendDir, 'index.html')));
+app.get('/styles.css',  (_, res) => res.sendFile(path.join(frontendDir, 'styles.css')));
+app.get('/checkout.js', (_, res) => res.sendFile(path.join(frontendDir, 'checkout.js')));
+app.get('/server.js',   (_, res) => res.sendFile(path.join(__dirname, 'server.js')));
 
 // ===== CRIAR TRANSAÇÃO =====
 app.post('/api/orders', paymentLimiter, async (req, res) => {
@@ -75,6 +89,9 @@ app.post('/api/orders', paymentLimiter, async (req, res) => {
     return res.status(422).json({ error: 'Campos obrigatórios faltando', fields: missing });
   }
 
+  // Normaliza 'card' → 'credit_card'
+  if (payment.method === 'card') payment.method = 'credit_card';
+
   const allowedMethods = ['credit_card', 'pix', 'boleto'];
   if (!allowedMethods.includes(payment.method)) {
     return res.status(422).json({ error: 'Método de pagamento inválido' });
@@ -82,11 +99,13 @@ app.post('/api/orders', paymentLimiter, async (req, res) => {
 
   try {
     const payload = buildTransactionPayload({ customer, address, items, payment, shipping, req });
+    console.log('[FuriaPay] Payload:', JSON.stringify(payload, null, 2));
     const { data } = await furiapay.post('/payment-transaction/create', payload);
 
-    console.log(`[FuriaPay] Transação criada: ${data.Id} | Status: ${data.Status}`);
+    const tx = data.data;
+    console.log(`[FuriaPay] Transação: ${tx?.id} | Status: ${tx?.status}`);
 
-    return res.status(201).json(formatResponse(data, payment.method));
+    return res.status(201).json(await formatResponse(tx, payment.method));
   } catch (err) {
     return handleGatewayError(err, res);
   }
@@ -102,13 +121,14 @@ app.get('/api/orders/:id/status', async (req, res) => {
 
   try {
     const { data } = await furiapay.get(`/payment-transaction/info/${id}`);
+    const tx = data.data || data;
     return res.json({
-      id:            data.Id,
-      status:        data.Status,
-      amount:        data.Amount,        // em reais
-      paymentMethod: data.PaymentMethod,
-      paidAt:        data.PaidAt || null,
-      createdAt:     data.CreatedAt,
+      id:            tx.id,
+      status:        tx.status,
+      amount:        tx.amount,
+      paymentMethod: tx.payment_method,
+      paidAt:        tx.paid_at || null,
+      createdAt:     tx.created_at,
     });
   } catch (err) {
     return handleGatewayError(err, res);
@@ -127,6 +147,47 @@ app.post('/api/orders/:id/refund', async (req, res) => {
     const { data } = await furiapay.post(`/payment-transaction/${id}/refund`);
     console.log(`[FuriaPay] Estorno solicitado: ${id}`);
     return res.json({ success: true, data });
+  } catch (err) {
+    return handleGatewayError(err, res);
+  }
+});
+
+// Verificação de URL que a FuriaPay faz via GET antes de ativar o webhook
+app.get('/webhook', (_, res) => res.status(200).send('OK'));
+
+// ===== SAQUE / TRANSFERÊNCIA PIX =====
+app.post('/api/withdraw', async (req, res) => {
+  const { pix_key, pix_type, amount } = req.body;
+
+  const validTypes = ['cpf', 'cnpj', 'evp', 'phone', 'email'];
+  if (!pix_key || !pix_type || !amount) {
+    return res.status(422).json({ error: 'pix_key, pix_type e amount são obrigatórios' });
+  }
+  if (!validTypes.includes(pix_type)) {
+    return res.status(422).json({ error: `pix_type inválido. Use: ${validTypes.join(', ')}` });
+  }
+  if (typeof amount !== 'number' || amount <= 0) {
+    return res.status(422).json({ error: 'amount deve ser um número positivo em reais (ex: 10.00)' });
+  }
+
+  try {
+    const { data } = await furiapay.post('/wallet-transaction/create/withdrawal', {
+      pix_key,
+      pix_type,
+      amount,       // em reais
+      postback_url: process.env.WEBHOOK_URL || `http://localhost:${PORT}/webhook`,
+    });
+
+    console.log(`[Saque] ID: ${data.data?.id} | Status: ${data.data?.status} | R$ ${amount}`);
+
+    return res.json({
+      id:             data.data.id,
+      status:         data.data.status,
+      pix_key:        data.data.pix_key,
+      required_amount: data.data.required_amount,
+      total_amount:   data.data.total_amount,
+      created_at:     data.data.created_at,
+    });
   } catch (err) {
     return handleGatewayError(err, res);
   }
@@ -265,9 +326,15 @@ function buildTransactionPayload({ customer, address, items, payment, shipping, 
   }
 
   if (payment.method === 'credit_card') {
+    const card = payment.card || {};
+    const [expMonth, expYear] = (card.expiry || '').split('/');
+    // FuriaPay expects MM/YYYY — expand 2-digit year to 4 digits
+    const expYearFull = expYear?.length === 2 ? `20${expYear}` : expYear;
     base.card = {
-      token:        payment.cardToken,
-      holder_name:  payment.holderName,
+      number:          card.number?.replace(/\D/g, ''),
+      holder_name:     card.holder_name,
+      expiration_date: expMonth && expYearFull ? `${expMonth}/${expYearFull}` : undefined,
+      cvv:             card.cvv,
     };
     base.installments = Number(payment.installments) || 1;
   }
@@ -284,21 +351,32 @@ function buildTransactionPayload({ customer, address, items, payment, shipping, 
 }
 
 // ===== FORMATA RESPOSTA PARA O FRONTEND =====
-function formatResponse(data, method) {
+// Resposta FuriaPay: { data: { id, amount, status, pix: { qr_code, expiration_date } } }
+async function formatResponse(data, method) {
   const base = {
-    orderId: data.Id,
-    status:  data.Status,
-    amount:  data.Amount,
+    orderId: data.id,
+    status:  data.status,
+    amount:  data.amount,
     method,
   };
 
   if (method === 'pix') {
+    const rawCode = data.pix?.qr_code || '';
+    // Gera imagem QR Code em base64 a partir do código EMV
+    let qrCodeBase64 = null;
+    if (rawCode) {
+      try {
+        qrCodeBase64 = await QRCode.toDataURL(rawCode, { width: 280, margin: 2 });
+      } catch (e) {
+        console.error('[QRCode] Erro ao gerar imagem:', e.message);
+      }
+    }
     return {
       ...base,
       pix: {
-        qrCode:       data.Pix?.QrCode       || data.pix?.qr_code,
-        qrCodeBase64: data.Pix?.QrCodeBase64 || data.pix?.qr_code_url,
-        expiresAt:    data.Pix?.ExpiresAt    || data.pix?.expires_at,
+        qrCode:       rawCode,
+        qrCodeBase64: qrCodeBase64,
+        expiresAt:    data.pix?.expiration_date,
       },
     };
   }
@@ -307,9 +385,9 @@ function formatResponse(data, method) {
     return {
       ...base,
       boleto: {
-        url:     data.Boleto?.Url     || data.boleto?.url,
-        barCode: data.Boleto?.BarCode || data.boleto?.bar_code,
-        dueDate: data.Boleto?.DueDate || data.boleto?.due_date,
+        url:     data.boleto?.url,
+        barCode: data.boleto?.bar_code,
+        dueDate: data.boleto?.due_date,
       },
     };
   }
@@ -322,9 +400,10 @@ function handleGatewayError(err, res) {
   const status = err.response?.status;
 
   if (status === 400) {
+    console.error('[FuriaPay 400] Resposta:', JSON.stringify(err.response.data, null, 2));
     return res.status(422).json({
       error:   'Dados inválidos para o gateway',
-      details: err.response.data?.errors || err.response.data,
+      details: err.response.data,
     });
   }
 
