@@ -271,8 +271,10 @@ function showSuccess(order = {}) {
   document.getElementById('modal-order-id').textContent =
     order.orderId || String(Math.floor(Math.random() * 900000) + 100000);
 
-  document.getElementById('pix-result').style.display    = 'none';
-  document.getElementById('boleto-result').style.display = 'none';
+  const pixRes    = document.getElementById('pix-result');
+  const boletoRes = document.getElementById('boleto-result');
+  if (pixRes)    pixRes.style.display    = 'none';
+  if (boletoRes) boletoRes.style.display = 'none';
 
   if (state.method === 'pix' && order.pix) {
     document.getElementById('pix-result').style.display = 'block';
