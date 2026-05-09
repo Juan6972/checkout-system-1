@@ -148,7 +148,7 @@ app.use((req, _res, next) => {
 // ─────────────────────────────────────────────
 //  ARQUIVOS ESTÁTICOS
 // ─────────────────────────────────────────────
-const frontendDir = path.join(__dirname, '..');
+const frontendDir = __dirname;
 
 app.get('/',            (_, res) => res.sendFile(path.join(frontendDir, 'index.html')));
 app.get('/index.html',  (_, res) => res.sendFile(path.join(frontendDir, 'index.html')));
