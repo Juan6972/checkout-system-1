@@ -1,6 +1,6 @@
 'use strict';
 
-const API_URL       = 'https://cautious-invention-7v5p5646ggv9hw6w9-4000.app.github.dev';
+const API_URL       = 'https://checkout-system-1-production.up.railway.app';
 const PRODUCT_PRICE = 29700; // centavos
 
 const state = {
