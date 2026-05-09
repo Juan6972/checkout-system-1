@@ -154,6 +154,7 @@ app.get('/',            (_, res) => res.sendFile(path.join(frontendDir, 'index.h
 app.get('/index.html',  (_, res) => res.sendFile(path.join(frontendDir, 'index.html')));
 app.get('/styles.css',  (_, res) => res.sendFile(path.join(frontendDir, 'styles.css')));
 app.get('/checkout.js', (_, res) => res.sendFile(path.join(frontendDir, 'checkout.js')));
+app.get('/product.jpg', (_, res) => res.sendFile(path.join(frontendDir, 'product.jpg')));
 
 // Expõe server.js e setup.sh APENAS em desenvolvimento (nunca em produção)
 if (!IS_PROD) {
